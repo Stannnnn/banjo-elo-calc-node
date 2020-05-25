@@ -119,20 +119,20 @@ const processPlayerElo2 = ({
 processPlayerElo2({
     teamOne: {
         players: [
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
         ],
         score: 10,
     },
     teamTwo: {
         players: [
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
-            { elo: 1200, sigma: 20 },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
+            { elo: 1200, sigma: undefined },
         ],
-        score: 8,
+        score: 1,
     },
 })
