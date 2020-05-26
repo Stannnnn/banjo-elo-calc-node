@@ -72,13 +72,27 @@ const processPlayerElo2 = ({
     const maxEloDiff = 600
 
     if (teamOne.score > teamTwo.score) {
-        teamTwoEloDiff = Math.min(Math.abs(teamOneElo - teamTwoElo), maxEloDiff)
+        if (teamOneElo > teamTwoElo) {
+            teamTwoEloDiff = Math.max(teamOneElo - maxEloDiff, teamTwoElo) - teamTwoElo
+        }
+
+        if (teamOneElo < teamTwoElo) {
+            teamTwoEloDiff = Math.min(teamOneElo + maxEloDiff, teamTwoElo) - teamTwoElo
+        }
     } else {
-        teamOneEloDiff = Math.min(Math.abs(teamOneElo - teamTwoElo), maxEloDiff)
+        if (teamTwoElo > teamOneElo) {
+            teamOneEloDiff = Math.max(teamTwoElo - maxEloDiff, teamOneElo) - teamOneElo
+        }
+
+        if (teamTwoElo < teamOneElo) {
+            teamOneEloDiff = Math.min(teamTwoElo + maxEloDiff, teamOneElo) - teamOneElo
+        }
     }
 
     const teamOneEloAdjust = teamOneEloDiff / teamOne.players.length
     const teamTwoEloAdjust = teamTwoEloDiff / teamTwo.players.length
+
+    // console.log(teamOneEloAdjust, teamTwoEloAdjust)
 
     const inputRatings = [
         teamOne.players.map(player => ({
@@ -90,6 +104,8 @@ const processPlayerElo2 = ({
             sigma: player.sigma,
         })),
     ]
+
+    console.log(inputRatings)
 
     const multiplier = 1 + (Math.abs(teamOne.score - teamTwo.score) - 1) / (10 * 2)
 
@@ -105,13 +121,13 @@ const processPlayerElo2 = ({
         }))
     })
 
-    teamOne.players.forEach((player, k) => {
-        console.log(ratings[0][k].mu)
-    })
+    // teamOne.players.forEach((player, k) => {
+    //     console.log(ratings[0][k].mu)
+    // })
 
-    teamTwo.players.forEach((player, k) => {
-        console.log(ratings[1][k].mu)
-    })
+    // teamTwo.players.forEach((player, k) => {
+    //     console.log(ratings[1][k].mu)
+    // })
 
     return ratings
 }
@@ -119,19 +135,19 @@ const processPlayerElo2 = ({
 processPlayerElo2({
     teamOne: {
         players: [
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
+            { elo: 3600, sigma: undefined },
+            { elo: 3500, sigma: undefined },
+            { elo: 3200, sigma: undefined },
+            { elo: 3800, sigma: undefined },
         ],
         score: 10,
     },
     teamTwo: {
         players: [
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
-            { elo: 1200, sigma: undefined },
+            { elo: 1600, sigma: undefined },
+            { elo: 2100, sigma: undefined },
+            { elo: 3100, sigma: undefined },
+            { elo: 2800, sigma: undefined },
         ],
         score: 1,
     },
