@@ -1,61 +1,6 @@
 import { Rating, rate } from 'ts-trueskill'
 import _ from 'lodash'
 
-const processPlayerElo = () => {
-    const players: { mu: number; sigma: number | undefined }[] = [
-        { mu: 1200, sigma: 20 },
-        { mu: 1200, sigma: 20 },
-        { mu: 1200, sigma: 20 },
-        { mu: 1200, sigma: 20 },
-    ]
-
-    const games = [{ s1: 0, s2: 0 }]
-
-    _.range(1).map(g => {
-        const t1 = players.slice(0, 2)
-        const t2 = players.slice(2)
-
-        const scoreOne = 5
-        const scoreTwo = 10
-
-        const teamRate = rate(
-            [t1.map(p => new Rating(p.mu, p.sigma)), t2.map(p => new Rating(p.mu, p.sigma))]
-            // [10 - scoreOne, 10 - scoreTwo]
-        )
-
-        const multiplier = 1 + Math.abs(scoreOne - scoreTwo) / 20
-
-        const a = ((scoreOne > scoreTwo ? 3 : -3) + teamRate[0][0].mu - t1[0].mu) * multiplier
-        const b = ((scoreOne > scoreTwo ? 3 : -3) + teamRate[0][1].mu - t1[1].mu) * multiplier
-        const c = ((scoreTwo > scoreOne ? 3 : -3) + teamRate[1][0].mu - t2[0].mu) * multiplier
-        const d = ((scoreTwo > scoreOne ? 3 : -3) + teamRate[1][1].mu - t2[1].mu) * multiplier
-
-        t1[0].mu += a
-        t1[0].sigma = teamRate[0][0].sigma
-
-        t1[1].mu += b
-        t1[1].sigma = teamRate[0][1].sigma
-
-        t2[0].mu += c
-        t2[0].sigma = teamRate[1][0].sigma
-
-        t2[1].mu += d
-        t2[1].sigma = teamRate[1][1].sigma
-
-        console.log(teamRate[0][0].mu, teamRate[1][0].mu)
-
-        // console.log(
-        //     `${scoreOne} - ${scoreTwo} => ${teamRate[0][0].mu + teamRate[0][1].mu} - ${
-        //         teamRate[1][0].mu + teamRate[1][1].mu
-        //     } => ${a + b} - ${c + d}`
-        // )
-    })
-
-    // console.log(players)
-}
-
-// processPlayerElo()
-
 const processPlayerElo2 = ({
     teamOne,
     teamTwo,
@@ -121,34 +66,36 @@ const processPlayerElo2 = ({
         }))
     })
 
-    // teamOne.players.forEach((player, k) => {
-    //     console.log(ratings[0][k].mu)
-    // })
+    teamOne.players.forEach((player, k) => {
+        console.log(ratings[0][k].mu)
+    })
 
-    // teamTwo.players.forEach((player, k) => {
-    //     console.log(ratings[1][k].mu)
-    // })
+    teamTwo.players.forEach((player, k) => {
+        console.log(ratings[1][k].mu)
+    })
 
     return ratings
 }
 
-processPlayerElo2({
+const t = {
     teamOne: {
         players: [
-            { elo: 3600, sigma: undefined },
-            { elo: 3500, sigma: undefined },
-            { elo: 3200, sigma: undefined },
-            { elo: 3800, sigma: undefined },
+            { elo: 1954, sigma: 240 },
+            { elo: 1304, sigma: 300 },
+            { elo: 1085, sigma: 122 },
+            { elo: 1075, sigma: 145 },
         ],
         score: 10,
     },
     teamTwo: {
         players: [
-            { elo: 1600, sigma: undefined },
-            { elo: 2100, sigma: undefined },
-            { elo: 3100, sigma: undefined },
-            { elo: 2800, sigma: undefined },
+            { elo: 1432, sigma: 300 },
+            { elo: 1157, sigma: 300 },
+            { elo: 935, sigma: 300 },
+            { elo: 856, sigma: 208 },
         ],
-        score: 1,
+        score: 7,
     },
-})
+}
+
+processPlayerElo2(t)
