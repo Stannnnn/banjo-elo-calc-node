@@ -14,7 +14,7 @@ const processPlayerElo2 = ({
     let teamOneEloDiff = 0
     let teamTwoEloDiff = 0
 
-    const maxEloDiff = 600
+    const maxEloDiff = Math.min(Math.abs(teamOneElo - teamTwoElo) / 2, 600)
 
     if (teamOne.score > teamTwo.score) {
         if (teamOneElo > teamTwoElo) {
@@ -80,21 +80,21 @@ const processPlayerElo2 = ({
 const t = {
     teamOne: {
         players: [
-            { elo: 1954, sigma: 240 },
-            { elo: 1304, sigma: 300 },
-            { elo: 1085, sigma: 122 },
-            { elo: 1075, sigma: 145 },
+            { elo: 1378, sigma: 106 },
+            { elo: 1037, sigma: 259 },
+            { elo: 883, sigma: 131 },
+            { elo: 739, sigma: 189 },
         ],
-        score: 10,
+        score: 8,
     },
     teamTwo: {
         players: [
-            { elo: 1432, sigma: 300 },
-            { elo: 1157, sigma: 300 },
-            { elo: 935, sigma: 300 },
-            { elo: 856, sigma: 208 },
+            { elo: 1401, sigma: 92 },
+            { elo: 1192, sigma: 131 },
+            { elo: 1069, sigma: 156 },
+            { elo: 797, sigma: 107 },
         ],
-        score: 7,
+        score: 10,
     },
 }
 
